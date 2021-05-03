@@ -1,0 +1,193 @@
+# 2021 04 09 Friday.
+# Nanjing city wall.
+# Defence ability model.
+# Iuha Von Orius Latest model.
+
+
+# First----Mass of the wall.
+
+# Define other values we need:
+
+# Density of the first section of the wall:
+density1 = 0
+# Width should be the same for all sections, and through out the model for convinience:
+width = 0
+# Height is the same for the Nanjing city wall:
+height = 0
+# First section, top length of the trapezoidal:
+first_length1 = 0
+# First section, base (bottom length) of the trapezoidal:
+first_length2 = 0
+# Mass of the first section:
+mass1 = 0
+
+
+# Density of the second section:
+density2 = 0
+# Second section, top length of the trapezoidal:
+second_length1 = 0
+# Second section, bottom length of the trapezoidal:
+second_length2 = 0
+# Mass of the second section:
+mass2 = 0
+
+
+# Density of the third section:
+density3 = 0
+# Third section, top length of the trapezoidal:
+third_length1 = 0
+# Third section, bottom length of the trapezoidal:
+third_length2 = 0
+# Mass of the third section:
+mass3 = 0
+
+
+#Let the Mass be the total mass of the wall.
+Mass = 0
+
+print("Hello, this model will help you to calculate the change in GPE of the Nanjing city wall.\n")
+
+
+width = float(input("Enter the width of the wall please\n"))
+height = float(input("Height please\n"))
+density1 = float(input("1st Density please\n"))
+first_length1 = float(input("1st Top length please\n"))
+first_length2 = float(input("1st bottom length please\n"))
+volume1 = (first_length1 + first_length2)*(height)*(0.5)*width
+print("1st volume is", volume1)
+mass1 = density1 * volume1
+print("1st mass is", mass1)
+    
+density2 = float(input("2nd Density please\n"))
+second_length1 = float(input("2nd Top length please\n"))
+second_length2 = float(input("2nd bottom length please\n"))
+volume2 = (second_length1 + second_length2)*(height)*(0.5)*width
+print("2nd volume is", volume2)
+mass2 = density2 * volume2
+print("2nd mass is", mass2)
+    
+density3 = float(input("3rd Density please\n"))
+third_length1 = float(input("3rd Top length please\n"))
+third_length2 = float(input("3rd bottom length please\n"))
+volume3 = (third_length1 + third_length2)*(height)*(0.5)*width
+print("3rd volume is", volume3)
+mass3 = density3 * volume3
+print("3rd mass is", mass3)
+
+
+Mass = mass1 + mass2 + mass3
+
+print("Thank you! The total mass is" ,Mass,"\n")
+
+
+
+# Secondly------Height(of the initial centre of mass).
+
+# Initial height of the centre of mass--" imY (initial mean Y)"
+imY = 0
+
+# Height of the centre of mass of each sections:
+# e.g.section 1 is "imy_1".
+imy_1 = 0
+imy_2 = 0
+imy_3 = 0
+
+imy_1 = (height / 3) * ((2*first_length1 + first_length2)/(first_length1 + first_length2))
+print("Height of the Centre of Mass of the 1st section is", imy_1)
+imy_2 = (height / 3) * ((2*second_length1 + second_length2)/(second_length1 + second_length2))
+print("Height of the Centre of Mass of the 2nd section is", imy_2)
+imy_3 = (height / 3) * ((2*third_length1 + third_length2)/(third_length1 + third_length2))
+print("Height of the Centre of Mass of the 3rd section is", imy_3,"\n")
+
+imY = (mass1*imy_1 + mass2*imy_2 + mass3*imy_3)/Mass
+print("The initial height of the overall Centre of Mass is",imY)
+
+# iGPE = initial Gravitational Potential Energy:
+iGPE = 0
+
+iGPE = Mass * imY * 9.81
+
+print("The initial GPE is", iGPE)
+
+
+
+# Thirdly, the height of the final centre of mass (disfunctioned wall):
+
+
+
+# A(Area) is the cross-sectional area of the wall(trapezium):
+A = 0
+# length1 is the total top length of the trapezium and length2 is the bottom length:
+length1 = 0
+length2 = 0
+# B is the area of the back triangle.
+B = 0
+# R is the area of the front trapezium. R = A - B
+R = 0
+# L is the base of the area of the back triangle.
+L = 0
+# angle of the slope inclined with the ground of the back triangle.
+theta = 0
+# J height h.
+J_h = 0
+# Final height of the centre of mass--"fmY(final mean Y)"
+fmY = 0
+
+# A(Area) of the cross-sectional area of the wall.
+Length1 = first_length1 + second_length1 + third_length1
+Length2 = first_length2 + second_length2 + third_length2
+A = (Length1 + Length2) * (height) * (0.5)
+print("Total cross-sectional area of the wall is", A,"\n")
+
+# Obtain L:
+L = float(input("Please enter the value of L (base of the back triangle)\n"))
+
+# Obtain R:
+B = (L*height)/2
+R = A - B
+
+# import math for trigonometry:
+import math
+
+# Calculate J_h
+
+J_h = (height**2)/(2*math.tan(math.pi/4))
+
+if R >= J_h:
+    #case 1
+    fmY = (height/3) + ((R/3)-( (height**2)/(6*math.tan(math.pi/4)) ) )/((2*R/height) + L)
+    print("The back of the wall does not change.\n")
+
+    
+elif R <= J_h:
+    #case 2
+    theta = math.atan(height/L)
+    fmY = math.sqrt( 2*A /(1/math.tan(math.pi/4) + 1/math.tan(theta)) )/3
+    print("The back of the wall does change.\n")
+                  
+else:
+    print("Sorry! something has gone wrong!\n")
+
+
+print("Height of the final Centre of Mass is", fmY)
+# R = J_h, both methods work.
+
+# final Gravitational Potential Energy:
+fGPE = 0
+# change in GPE:
+Change_GPE = 0
+
+
+fGPE = Mass * fmY * 9.81
+print("The final GPE is", fGPE)
+
+Change_GPE = iGPE - fGPE
+
+print("The change in GPE is",Change_GPE,"\n")
+
+# Efficiency:
+Efficiency = 0
+Efficiency = ( Change_GPE / iGPE ) * 100
+print("The defence efficiency is", Efficiency, "%\n")
+
+print("Thanks!")
